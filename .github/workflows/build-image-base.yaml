@@ -1,0 +1,57 @@
+name: Docker Image (Base)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "base/Dockerfile"
+      - "base/requirements.txt"
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        python:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ORG_PAT }}
+          fetch-depth: 0
+          lfs: true
+          submodules: true
+      - name: Create short SHA
+        uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+        with:
+          length: 7
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.ORG_PAT }}
+      - name: Build and push mrx-link-base
+        uses: docker/build-push-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          context: ./base
+          file: ./base/Dockerfile
+          tags: |
+            ghcr.io/makinarocks/mrx-link-base:${{ matrix.python }}
+            ghcr.io/makinarocks/mrx-link-base:${{ matrix.python }}-latest
+            ghcr.io/makinarocks/mrx-link-base:${{ matrix.python }}-${{ steps.short-sha.outputs.sha }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          build-args: |
+            BASE_IMAGE=python:${{ matrix.python }}-buster
