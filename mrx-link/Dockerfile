@@ -18,7 +18,7 @@ RUN "/opt/python/bin/python3" -m pip install --upgrade pip && \
     "/opt/python/bin/python3" -m pip install --upgrade "build>=0.7" "setuptools>=61.0,<64.0" "wheel>=0.37" && \
     "/opt/python/bin/python3" -m pip install --upgrade "mrx-link==${MRX_LINK_VERSION}" && \
     "/opt/python/bin/python3" -c "import mrx_link" && \
-    rm -fr "$(/opt/python/bin/python3 -m pip cache dir)" &&
+    rm -fr "$(/opt/python/bin/python3 -m pip cache dir)"
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"

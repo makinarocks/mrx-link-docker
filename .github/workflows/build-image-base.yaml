@@ -10,13 +10,16 @@ on:
 
 jobs:
   build-push:
-    runs-on: ubuntu-22.04
     strategy:
       matrix:
         python:
           - "3.8"
           - "3.9"
           - "3.10"
+
+    name: Build mrx-link-base image (Python ${{ matrix.python }})
+    runs-on: ubuntu-22.04
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
