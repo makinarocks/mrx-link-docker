@@ -48,9 +48,9 @@ jobs:
           context: ./base
           file: ./base/Dockerfile
           tags: |
-            ghcr.io/makinarocks/mrx-link-base:${{ matrix.python }}
-            ghcr.io/makinarocks/mrx-link-base:${{ matrix.python }}-latest
-            ghcr.io/makinarocks/mrx-link-base:${{ matrix.python }}-${{ steps.short-sha.outputs.sha }}
+            ghcr.io/makinarocks/mrx-link-base:python${{ matrix.python }}
+            ghcr.io/makinarocks/mrx-link-base:python${{ matrix.python }}-latest
+            ghcr.io/makinarocks/mrx-link-base:python${{ matrix.python }}-${{ steps.short-sha.outputs.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: |
