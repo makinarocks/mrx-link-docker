@@ -37,7 +37,7 @@ ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
 ENV NODE_PREFIX="/opt/nodejs"
-ENV PATH="${NODE_PREFIX}/bin:${PATH}"
+ENV PATH="${NODE_PREFIX}/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ENV SHELL="/bin/bash"
 
 # Install NodeJS.
@@ -63,17 +63,14 @@ RUN export ARCH= && \
     /usr/local/bin/npm cache clean --force && \
     rm "${nodejs_tar}"
 
-# Make Python virtualenv and install requirements.
+# Install Python requirements.
 WORKDIR /tmp
 COPY requirements.txt /tmp/requirements.txt
-RUN "/usr/local/bin/python3" -m venv "/opt/python" && \
-    "/opt/python/bin/python3" -m pip install --upgrade pip && \
-    "/opt/python/bin/python3" -m pip install -r /tmp/requirements.txt && \
-    rm -fr "$(/opt/python/bin/python3 -m pip cache dir)" && \
-    rm -f /tmp/environment.yaml
-ENV PATH="/opt/python/bin:${PATH}"
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip install -r /tmp/requirements.txt && \
+    rm -fr "$(python3 -m pip cache dir)"
 
 WORKDIR /workspace
 
 ENTRYPOINT [ "/usr/bin/tini", "-g", "--" ]
-CMD [ "sh", "-c", "/opt/python/bin/python3" ]
+CMD [ "sh", "-c", "python3" ]
