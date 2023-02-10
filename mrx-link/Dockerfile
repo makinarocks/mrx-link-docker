@@ -36,8 +36,8 @@ RUN adduser --home "${HOME}" --shell "${SHELL}" --uid "${NB_UID}" --gid "${NB_GI
     chown -R "${NB_UID}:${NB_GID}" "${HOME}" && \
     fix-permissions "${HOME}"
 
-RUN chown -R "${NB_UID}:${NB_GID}" "/opt" && \
-    fix-permissions "/opt"
+RUN chown -R "${NB_UID}:${NB_GID}" "${NODE_PREFIX}" && \
+    fix-permissions "${NODE_PREFIX}"
 
 WORKDIR "${HOME}/.jupyter"
 COPY jupyter_lab_config.py "${HOME}/.jupyter/jupyter_lab_config.py"
