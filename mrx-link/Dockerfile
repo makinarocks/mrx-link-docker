@@ -16,7 +16,7 @@ RUN sed -i "s/^#force_color_prompt=yes/force_color_prompt=yes/" /etc/skel/.bashr
 ARG MRX_LINK_VERSION="0.10.4"
 RUN python3 -m pip install --upgrade pip && \
     python3 -m pip install --upgrade "build>=0.7" "setuptools>=61.0,<64.0" "wheel>=0.37" && \
-    python3 -m pip install --upgrade "mrx-link==${MRX_LINK_VERSION}" && \
+    python3 -m pip install --upgrade "mrx-link==${MRX_LINK_VERSION}" "notebook==6.5.2" && \
     python3 -c "import mrx_link" && \
     rm -fr "$(python3 -m pip cache dir)"
 
