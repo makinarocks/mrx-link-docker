@@ -32,7 +32,7 @@ ENV NB_USER="${NB_USER}"
 
 RUN adduser --home "${HOME}" --shell "${SHELL}" --uid "${NB_UID}" --gid "${NB_GID}" --disabled-password "${NB_USER}" && \
     chmod g+w /etc/passwd && \
-    echo "${NB_USER} ALL=(ALL) NOPASSWD:/usr/bin/apt,/usr/bin/apt-get" >> /etc/sudoers && \
+    echo "${NB_USER} ALL=(ALL) NOPASSWD:/usr/bin/apt,/usr/bin/apt-get,/usr/local/bin/python3,/usr/local/bin/pip" >> /etc/sudoers && \
     chown -R "${NB_UID}:${NB_GID}" "${HOME}" && \
     fix-permissions "${HOME}"
 
