@@ -14,11 +14,11 @@ RUN sed -i "s/^#force_color_prompt=yes/force_color_prompt=yes/" /etc/skel/.bashr
     sed -i.bak -e "s/^%sudo/#%sudo/" /etc/sudoers
 
 ARG MRX_LINK_VERSION="0.10.4"
-RUN "/opt/python/bin/python3" -m pip install --upgrade pip && \
-    "/opt/python/bin/python3" -m pip install --upgrade "build>=0.7" "setuptools>=61.0,<64.0" "wheel>=0.37" && \
-    "/opt/python/bin/python3" -m pip install --upgrade "mrx-link==${MRX_LINK_VERSION}" && \
-    "/opt/python/bin/python3" -c "import mrx_link" && \
-    rm -fr "$(/opt/python/bin/python3 -m pip cache dir)"
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip install --upgrade "build>=0.7" "setuptools>=61.0,<64.0" "wheel>=0.37" && \
+    python3 -m pip install --upgrade "mrx-link==${MRX_LINK_VERSION}" "notebook==6.5.2" && \
+    python3 -c "import mrx_link" && \
+    rm -fr "$(python3 -m pip cache dir)"
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -32,12 +32,12 @@ ENV NB_USER="${NB_USER}"
 
 RUN adduser --home "${HOME}" --shell "${SHELL}" --uid "${NB_UID}" --gid "${NB_GID}" --disabled-password "${NB_USER}" && \
     chmod g+w /etc/passwd && \
-    echo "${NB_USER} ALL=(ALL) NOPASSWD:/usr/bin/apt,/usr/bin/apt-get" >> /etc/sudoers && \
+    echo "${NB_USER} ALL=(ALL) NOPASSWD:/usr/bin/apt,/usr/bin/apt-get,/usr/local/bin/python3,/usr/local/bin/pip" >> /etc/sudoers && \
     chown -R "${NB_UID}:${NB_GID}" "${HOME}" && \
     fix-permissions "${HOME}"
 
-RUN chown -R "${NB_UID}:${NB_GID}" "/opt" && \
-    fix-permissions "/opt"
+RUN chown -R "${NB_UID}:${NB_GID}" "${NODE_PREFIX}" && \
+    fix-permissions "${NODE_PREFIX}"
 
 WORKDIR "${HOME}/.jupyter"
 COPY jupyter_lab_config.py "${HOME}/.jupyter/jupyter_lab_config.py"
