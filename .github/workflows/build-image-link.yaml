@@ -51,7 +51,7 @@ jobs:
           context: ./mrx-link
           file: ./mrx-link/Dockerfile
           tags: |
-            ghcr.io/makinarocks/mrx-link:0.10.4-python${{ matrix.python }}
+            ghcr.io/makinarocks/mrx-link:0.10.5.dev1-python${{ matrix.python }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: |
