@@ -6,6 +6,7 @@ LABEL maintainer="Hwiyeon Cho <hwiyeon.cho@makinarocks.ai>"
 USER root
 
 COPY fix-permissions.sh /usr/local/bin/fix-permissions
+COPY jupyter_lab_config.py /etc/skel/.jupyter/jupyter_lab_config.py
 RUN chmod a+rx /usr/local/bin/fix-permissions
 
 RUN sed -i "s/^#force_color_prompt=yes/force_color_prompt=yes/" /etc/skel/.bashrc && \
@@ -38,11 +39,6 @@ RUN adduser --home "${HOME}" --shell "${SHELL}" --uid "${NB_UID}" --gid "${NB_GI
 
 RUN chown -R "${NB_UID}:${NB_GID}" "${NODE_PREFIX}" && \
     fix-permissions "${NODE_PREFIX}"
-
-WORKDIR "${HOME}/.jupyter"
-COPY jupyter_lab_config.py "${HOME}/.jupyter/jupyter_lab_config.py"
-RUN chown -R "${NB_UID}:${NB_GID}" "${HOME}/.jupyter" && \
-    fix-permissions "${HOME}/.jupyter"
 
 WORKDIR "${HOME}/workspace"
 RUN chown -R "${NB_UID}:${NB_GID}" "${HOME}/workspace" && \
