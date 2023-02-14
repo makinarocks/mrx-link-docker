@@ -10,6 +10,8 @@ USER root
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
+    bzip2 \
+    ca-certificates \
     curl \
     fonts-liberation \
     git \
