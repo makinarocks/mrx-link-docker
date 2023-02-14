@@ -9,19 +9,15 @@ USER root
 
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update --yes && \
-    apt-get install --yes \
-    build-essential \
+    apt-get install --yes --no-install-recommends \
+    bzip2 \
+    ca-certificates \
     curl \
     fonts-liberation \
     git \
     git-lfs \
-    jq \
     locales \
-    make \
-    nano \
-    netcat \
     sudo \
-    texlive-fonts-recommended \
     tini \
     vim \
     wget \
