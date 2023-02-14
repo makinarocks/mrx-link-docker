@@ -37,9 +37,6 @@ RUN adduser --home "${HOME}" --shell "${SHELL}" --uid "${NB_UID}" --gid "${NB_GI
     chown -R "${NB_UID}:${NB_GID}" "${HOME}" && \
     fix-permissions "${HOME}"
 
-RUN chown -R "${NB_UID}:${NB_GID}" "${NODE_PREFIX}" && \
-    fix-permissions "${NODE_PREFIX}"
-
 WORKDIR "${HOME}/workspace"
 RUN chown -R "${NB_UID}:${NB_GID}" "${HOME}/workspace" && \
     fix-permissions "${HOME}/workspace"
