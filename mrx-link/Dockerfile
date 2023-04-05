@@ -14,7 +14,7 @@ RUN sed -i "s/^#force_color_prompt=yes/force_color_prompt=yes/" /etc/skel/.bashr
     sed -i.bak -e "s/^%admin/#%admin/" /etc/sudoers && \
     sed -i.bak -e "s/^%sudo/#%sudo/" /etc/sudoers
 
-ARG MRX_LINK_VERSION="0.11.0"
+ARG MRX_LINK_VERSION="1.0.0"
 RUN python3 -m pip install --upgrade pip && \
     python3 -m pip install --upgrade "build>=0.7" "setuptools>=61.0,<64.0" "wheel>=0.37" && \
     python3 -m pip install --upgrade "mrx-link==${MRX_LINK_VERSION}" "notebook==6.5.2" && \
